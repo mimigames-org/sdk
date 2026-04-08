@@ -117,6 +117,90 @@ MimiSDK.onPlayerInfo((player) => {
 })
 ```
 
+## Дизайн-токены
+
+### `MimiSDK.theme`
+
+Объект с дизайн-токенами платформы. Можно читать напрямую в JS:
+
+```js
+const { primary, bg, error } = MimiSDK.theme.colors
+const { lg } = MimiSDK.theme.radius
+const font = MimiSDK.theme.font
+```
+
+| Поле | Описание |
+|------|----------|
+| `colors.bg` | Фон платформы `#0f0f1a` |
+| `colors.primary` | Акцентный цвет `#7c3aed` (violet) |
+| `colors.primaryHover` | Hover-состояние primary `#6d28d9` |
+| `colors.teal` | Интерактив/hover `#0d9488` |
+| `colors.amber` | Highlight/me `#f59e0b` |
+| `colors.error` | Ошибки `#ff5454` |
+| `colors.surface` | Фон карточек `rgba(255,255,255,0.04)` |
+| `colors.border` | Граница карточек `rgba(255,255,255,0.08)` |
+| `colors.textPrimary` | Основной текст `#fff` |
+| `colors.textSecondary` | Вторичный текст `rgba(255,255,255,0.6)` |
+| `colors.textGhost` | Призрачный текст `rgba(255,255,255,0.3)` |
+| `radius.sm / md / lg` | `4px` / `8px` / `12px` |
+| `font` | `'Helvetica Neue', Helvetica, Arial, sans-serif` |
+
+---
+
+### `MimiSDK.injectTheme()`
+
+Вставляет CSS-переменные платформы в `<head>` текущего документа (iframe). Метод идемпотентен — повторные вызовы не дублируют стили.
+
+```js
+MimiSDK.injectTheme()
+```
+
+После вызова в твоём CSS доступны переменные:
+
+```css
+body {
+  background: var(--mimi-bg);          /* #0f0f1a */
+  color: var(--mimi-text);             /* #fff */
+  font-family: var(--mimi-font);
+}
+
+button {
+  background: var(--mimi-primary);     /* #7c3aed */
+  border-radius: var(--mimi-radius-md);/* 8px */
+}
+
+button:hover {
+  background: var(--mimi-primary-hover);
+}
+
+.card {
+  background: var(--mimi-surface);
+  border: 1px solid var(--mimi-border);
+  border-radius: var(--mimi-radius-lg);
+}
+```
+
+Полный список переменных:
+
+| Переменная | Значение |
+|------------|----------|
+| `--mimi-bg` | `#0f0f1a` |
+| `--mimi-primary` | `#7c3aed` |
+| `--mimi-primary-hover` | `#6d28d9` |
+| `--mimi-teal` | `#0d9488` |
+| `--mimi-amber` | `#f59e0b` |
+| `--mimi-error` | `#ff5454` |
+| `--mimi-surface` | `rgba(255,255,255,0.04)` |
+| `--mimi-border` | `rgba(255,255,255,0.08)` |
+| `--mimi-text` | `#fff` |
+| `--mimi-text-secondary` | `rgba(255,255,255,0.6)` |
+| `--mimi-text-ghost` | `rgba(255,255,255,0.3)` |
+| `--mimi-radius-sm` | `4px` |
+| `--mimi-radius-md` | `8px` |
+| `--mimi-radius-lg` | `12px` |
+
+---
+
 ## Регистрация игры
 
 Зарегистрируй свою игру через API платформы:

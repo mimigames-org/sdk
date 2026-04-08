@@ -38,6 +38,61 @@ const MimiSDK = (() => {
 
   return {
     /**
+     * Design tokens matching the MimiGames platform colour palette.
+     * Game UIs can read these values directly (e.g. MimiSDK.theme.colors.primary)
+     * or call MimiSDK.injectTheme() to expose them as CSS custom properties.
+     */
+    theme: {
+      colors: {
+        bg: '#0f0f1a',
+        primary: '#7c3aed',
+        primaryHover: '#6d28d9',
+        teal: '#0d9488',
+        amber: '#f59e0b',
+        error: '#ff5454',
+        surface: 'rgba(255,255,255,0.04)',
+        border: 'rgba(255,255,255,0.08)',
+        textPrimary: '#fff',
+        textSecondary: 'rgba(255,255,255,0.6)',
+        textGhost: 'rgba(255,255,255,0.3)',
+      },
+      radius: { sm: '4px', md: '8px', lg: '12px' },
+      font: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+    },
+
+    /**
+     * Inject MimiGames CSS custom properties into the current document <head>.
+     * Idempotent — calling it multiple times inserts the <style> only once.
+     *
+     * After calling this, game CSS can use:
+     *   var(--mimi-bg), var(--mimi-primary), var(--mimi-teal), etc.
+     */
+    injectTheme() {
+      if (document.getElementById('mimi-theme')) return;
+      const style = document.createElement('style');
+      style.id = 'mimi-theme';
+      style.textContent = `
+:root {
+  --mimi-bg: #0f0f1a;
+  --mimi-primary: #7c3aed;
+  --mimi-primary-hover: #6d28d9;
+  --mimi-teal: #0d9488;
+  --mimi-amber: #f59e0b;
+  --mimi-error: #ff5454;
+  --mimi-surface: rgba(255,255,255,0.04);
+  --mimi-border: rgba(255,255,255,0.08);
+  --mimi-text: #fff;
+  --mimi-text-secondary: rgba(255,255,255,0.6);
+  --mimi-text-ghost: rgba(255,255,255,0.3);
+  --mimi-radius-sm: 4px;
+  --mimi-radius-md: 8px;
+  --mimi-radius-lg: 12px;
+}
+`.trim();
+      document.head.appendChild(style);
+    },
+
+    /**
      * Signal the platform that the iframe is ready to receive state.
      * Must be called after setting up all callbacks.
      * If not called within 10 seconds, the platform shows a load error.
