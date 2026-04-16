@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -q -- '--no-verify'; then echo 'BLOCKED: --no-verify is not allowed. Fix the underlying issue instead of bypassing hooks.' >&2; exit 2; fi"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '=== Environment Check ===' && node --version && (command -v npm > /dev/null && echo 'npm: OK' || echo 'WARNING: npm not found') && echo '=== Ready ===' "
+          }
+        ]
+      }
+    ]
+  }
+}
