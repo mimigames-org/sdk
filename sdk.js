@@ -15,6 +15,19 @@ const MimiSDK = (() => {
   let _onStateUpdate = null;
   let _onGameEvent = null;
   let _onPlayerInfo = null;
+  let _targetOrigin = '*';
+
+  /**
+   * Internal helper — send a postMessage to the parent window using the
+   * configured target origin.  Falls back to '*' with a console warning
+   * when no origin has been set via init().
+   */
+  function _post(data) {
+    if (_targetOrigin === '*') {
+      console.warn('[MimiSDK] No targetOrigin configured, using "*". Set targetOrigin for security.');
+    }
+    window.parent.postMessage(data, _targetOrigin);
+  }
 
   /**
    * Listen for messages from the platform (parent window).
@@ -61,6 +74,19 @@ const MimiSDK = (() => {
     },
 
     /**
+     * Configure the SDK.  Call before ready() to set the target origin
+     * for postMessage security.
+     *
+     * @param {object} options
+     * @param {string} [options.targetOrigin] - e.g. 'https://mimigames.io'
+     */
+    init(options = {}) {
+      if (options.targetOrigin) {
+        _targetOrigin = options.targetOrigin;
+      }
+    },
+
+    /**
      * Inject MimiGames CSS custom properties into the current document <head>.
      * Idempotent — calling it multiple times inserts the <style> only once.
      *
@@ -98,7 +124,7 @@ const MimiSDK = (() => {
      * If not called within 10 seconds, the platform shows a load error.
      */
     ready() {
-      window.parent.postMessage({ type: 'ready' }, '*');
+      _post({ type: 'ready' });
     },
 
     /**
@@ -107,7 +133,7 @@ const MimiSDK = (() => {
      * @param {object} payload - action data
      */
     sendAction(action, payload = {}) {
-      window.parent.postMessage({ type: 'action', action, payload }, '*');
+      _post({ type: 'action', action, payload });
     },
 
     /**

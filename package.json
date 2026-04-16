@@ -1,0 +1,17 @@
+{
+  "name": "@mimigames/sdk",
+  "version": "1.0.0",
+  "description": "MimiSDK — postMessage bridge for mimigames platform",
+  "main": "sdk.js",
+  "types": "sdk.d.ts",
+  "scripts": {
+    "lint": "eslint sdk.js",
+    "lint:fix": "eslint --fix sdk.js",
+    "test": "node test/sdk.test.js",
+    "validate": "npm run lint && npm run test"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0"
+  },
+  "private": true
+}

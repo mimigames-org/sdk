@@ -10,6 +10,17 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '=== Environment Check ===' && node --version && (command -v npm > /dev/null && echo 'npm: OK' || echo 'WARNING: npm not found') && echo '=== Ready ===' "
+          }
+        ]
+      }
     ]
   }
 }
