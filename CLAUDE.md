@@ -39,6 +39,27 @@ sdk.js
   MimiSDK.injectTheme()       — вставить CSS custom properties в <head>
 ```
 
+## Git Hooks
+
+Проект использует кастомные githooks из `.githooks/`. **Обязательно** включи их перед началом работы:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+### pre-commit
+- `npm run lint` — eslint
+
+### pre-push
+- `npm test` — тесты в Node.js (без зависимостей)
+
+**Все агенты обязаны включить githooks (`git config core.hooksPath .githooks`) при первом checkout.**
+
+## CI
+
+`.github/workflows/ci.yml`: lint (eslint) → test (node) при каждом PR и пуше в main.
+`.github/workflows/pages.yml`: деплой sdk.js на GitHub Pages при пуше в main.
+
 ## Деплой
 
 При пуше в `main` GitHub Actions автоматически деплоит на GitHub Pages (`.github/workflows/pages.yml`).  

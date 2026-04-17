@@ -1,0 +1,10 @@
+#!/bin/sh
+# pre-push: tests
+set -e
+
+REPO_NAME=$(basename "$PWD")
+
+echo "==> [$REPO_NAME] tests"
+npm test
+
+echo "==> pre-push passed"

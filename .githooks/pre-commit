@@ -1,0 +1,9 @@
+#!/bin/sh
+# pre-commit: eslint
+set -e
+
+REPO_NAME=$(basename "$PWD")
+echo "==> [$REPO_NAME] eslint"
+npm run lint
+
+echo "==> pre-commit passed"
