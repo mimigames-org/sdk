@@ -229,4 +229,23 @@ GET  /health
 GET  /state/{room_id}?player_id={player_id}
 ```
 
-Подробнее — в основной документации платформы.
+Канонические pydantic-модели и `typing.Protocol` живут в Python-подпакете
+[`python/`](./python/) (`mimigames-sdk`). TypeScript-зеркало тех же моделей —
+в [`sdk.d.ts`](./sdk.d.ts) (секция «Game-backend HTTP protocol»).
+
+## Reserved `public_delta` / `public_state` keys
+
+Платформа пишет и читает несколько namespaced-ключей в `public_delta`
+ответов `/start` `/action` `/tick` и в `public_state` ответа `/view`.
+Игры **не должны** использовать эти имена под свои данные — иначе платформа
+перезатрёт их или прочитает чужое.
+
+| Ключ | Тип | Где появляется | Кто пишет | Кто читает |
+|------|-----|----------------|-----------|------------|
+| `stream_token` | `string` | `public_delta`, `public_state` | backend (watch-party) | core + frontend-SDK |
+| `phase` | `{ name: string, expires_at: number }` | `public_delta` | backend | frontend-SDK (таймер фазы) |
+| `chat_notice` | `string` | `public_delta` | core | frontend-SDK (баннер) |
+
+Полный список и TS-типы — `StandardPublicDelta` / `StandardPublicState`
+в [`sdk.d.ts`](./sdk.d.ts). Добавляй сюда ключ, только если он нужен
+минимум двум играм — иначе держи его в приватной схеме игры.
