@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mimigames-sdk"
+version = "0.1.0"
+description = "Canonical pydantic models + typing.Protocol for the mimigames game-backend HTTP contract."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "mimigames-org" }]
+dependencies = [
+    "pydantic>=2",
+]
+
+[project.urls]
+Homepage = "https://github.com/mimigames-org/sdk"
+Repository = "https://github.com/mimigames-org/sdk"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mimigames_sdk"]
