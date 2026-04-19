@@ -45,13 +45,12 @@ function dispatchMessage(data, source) {
 }
 
 // ---------------------------------------------------------------------------
-// Load the SDK (CommonJS compat — the file uses `export default` so we
-// handle both .default and direct shapes)
+// Load the SDK — assigns to window.MimiSDK as a plain script
 // ---------------------------------------------------------------------------
 let MimiSDK;
 try {
-  const mod = require('../sdk.js');
-  MimiSDK = mod && mod.default ? mod.default : mod;
+  require('../sdk.js');
+  MimiSDK = global.window.MimiSDK;
 } catch (err) {
   console.error('Failed to load sdk.js:', err.message);
   process.exit(1);
