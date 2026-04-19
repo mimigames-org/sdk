@@ -11,7 +11,7 @@
  *   MimiSDK.ready()
  */
 
-const MimiSDK = (() => {
+window.MimiSDK = (() => {
   let _onStateUpdate = null;
   let _onGameEvent = null;
   let _onPlayerInfo = null;
@@ -167,4 +167,3 @@ const MimiSDK = (() => {
   };
 })();
 
-export default MimiSDK;
