@@ -1,10 +1,17 @@
 #!/bin/sh
-# pre-push: tests
+# pre-push: tests + security audit
 set -e
 
 REPO_NAME=$(basename "$PWD")
 
 echo "==> [$REPO_NAME] tests"
 npm test
+
+echo "==> [$REPO_NAME] npm audit"
+npm audit --audit-level=high
+if [ $? -ne 0 ]; then
+  echo "npm audit failed: fix high/critical CVEs before push"
+  exit 1
+fi
 
 echo "==> pre-push passed"

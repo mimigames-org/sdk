@@ -8,6 +8,10 @@ from pydantic import BaseModel, Field
 
 from .types import HealthResponse, Player
 
+# Alias for game backends that refer to participants as "PlayerInfo".
+# Both names are exported; `Player` is the canonical type.
+PlayerInfo = Player
+
 
 # --- Requests (core -> backend) -------------------------------------------------
 
@@ -127,6 +131,7 @@ class GameBackend(Protocol):
 
 
 __all__ = [
+    "PlayerInfo",
     "StartRequest",
     "ActionRequest",
     "ViewRequest",
