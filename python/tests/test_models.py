@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from mimigames_sdk import (
+    CONTRACT_VERSION,
     ActionRequest,
     EndRequest,
     GameBackend,
@@ -20,9 +21,21 @@ from mimigames_sdk import (
 def test_defaults_construct() -> None:
     assert HealthResponse().status == "ok"
     assert HealthResponse().rooms is None
+    assert HealthResponse().contract_version == CONTRACT_VERSION
     assert GameResponse().events == []
     assert GameResponse().public_delta == {}
     assert ViewResponse().public_state == {}
+
+
+def test_contract_version_is_major_2() -> None:
+    assert CONTRACT_VERSION == "2"
+
+
+def test_action_request_sequence_id_optional() -> None:
+    req = ActionRequest(room_id="r", player_id="p", action="move")
+    assert req.sequence_id is None
+    req2 = ActionRequest(room_id="r", player_id="p", action="move", sequence_id=7)
+    assert req2.sequence_id == 7
 
 
 def test_start_request_roundtrip() -> None:
@@ -93,6 +106,8 @@ def test_protocol_runtime_satisfied() -> None:
 
 if __name__ == "__main__":
     test_defaults_construct()
+    test_contract_version_is_major_2()
+    test_action_request_sequence_id_optional()
     test_start_request_roundtrip()
     test_tick_request_defaults()
     test_game_response_with_events_roundtrip()
