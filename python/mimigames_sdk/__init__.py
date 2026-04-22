@@ -8,6 +8,7 @@ from .protocol import (
     GameResponse,
     PhaseChanged,
     PlayerEliminated,
+    PlayerInfo,
     ScheduledBroadcast,
     StartRequest,
     TickEvent,
@@ -15,12 +16,13 @@ from .protocol import (
     ViewRequest,
     ViewResponse,
 )
-from .types import HealthResponse, Player
+from .types import CONTRACT_VERSION, HealthResponse, Player
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "ActionRequest",
+    "CONTRACT_VERSION",
     "EndRequest",
     "GameBackend",
     "GameOver",
@@ -29,6 +31,7 @@ __all__ = [
     "PhaseChanged",
     "Player",
     "PlayerEliminated",
+    "PlayerInfo",
     "ScheduledBroadcast",
     "StartRequest",
     "TickEvent",

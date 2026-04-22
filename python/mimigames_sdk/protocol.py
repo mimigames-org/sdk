@@ -6,7 +6,7 @@ from typing import Annotated, Literal, Protocol
 
 from pydantic import BaseModel, Field
 
-from .types import HealthResponse, Player
+from .types import CONTRACT_VERSION, HealthResponse, Player
 
 # Alias for game backends that refer to participants as "PlayerInfo".
 # Both names are exported; `Player` is the canonical type.
@@ -25,13 +25,20 @@ class StartRequest(BaseModel):
 
 
 class ActionRequest(BaseModel):
-    """Payload for `POST /action`."""
+    """Payload for `POST /action`.
+
+    `sequence_id` — monotonically increasing per-client action index used for
+    idempotency on reconnect (invariant #23). `None` for system actions issued
+    by core itself (e.g. `player_disconnected`, `set_host`), which are not
+    subject to replay and bypass the dedup check.
+    """
 
     room_id: str
     player_id: str
     action: str
     payload: dict = Field(default_factory=dict)
     state: dict | None = None
+    sequence_id: int | None = None
 
 
 class ViewRequest(BaseModel):
